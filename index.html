@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Misi Baik Hati</title>
+
+<style>
+
+body{
+font-family:Arial,sans-serif;
+background:#F0D9AF;
+padding:30px;
+text-align:center;
+margin:0;
+}
+
+h1{
+color:#6B4F2A;
+margin-bottom:10px;
+}
+
+.subtitle{
+color:#8A623A;
+margin-bottom:30px;
+}
+
+.card{
+
+background:#F7EFDC;
+max-width:700px;
+
+margin:auto;
+
+padding:30px;
+
+border-radius:20px;
+
+box-shadow:0 4px 12px rgba(0,0,0,0.1);
+
+}
+
+.question{
+
+font-size:22px;
+
+font-weight:bold;
+
+color:#6B4F2A;
+
+margin-bottom:25px;
+
+}
+
+button{
+
+display:block;
+
+width:100%;
+
+margin:12px 0;
+
+padding:15px;
+
+border:none;
+
+border-radius:12px;
+
+background:#FFEFC9;
+
+cursor:pointer;
+
+font-size:16px;
+
+transition:0.3s;
+
+}
+
+button:hover{
+
+background:#EBCB8B;
+
+transform:scale(1.02);
+
+}
+
+.feedback{
+
+margin-top:20px;
+
+font-size:20px;
+
+font-weight:bold;
+
+}
+
+.correct{
+
+color:green;
+
+}
+
+.wrong{
+
+color:red;
+
+}
+
+#score{
+
+margin-top:20px;
+
+font-size:18px;
+
+color:#6B4F2A;
+
+}
+
+#nextBtn{
+
+margin-top:25px;
+
+background:#D8B27C;
+
+display:none;
+
+}
+
+#nextBtn:hover{
+
+background:#C99C60;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>🎮 Misi Baik Hati</h1>
+
+<p class="subtitle">
+Pilih tindakan yang menunjukkan sikap baik hati.
+</p>
+
+<div class="card">
+
+<div id="question" class="question"></div>
+
+<div id="choices"></div>
+
+<div id="feedback" class="feedback"></div>
+
+<button id="nextBtn">
+Soalan Seterusnya ➜
+</button>
+
+<div id="score"></div>
+
+</div>
+
+<script>
+
+const quiz = [
+
+{
+
+question:
+"Ali ternampak rakannya terjatuh di kantin.",
+
+answers:[
+
+"Mentertawakan rakannya",
+
+"Membantu rakannya bangun"
+
+],
+
+correct:1
+
+},
+
+{
+
+question:
+"Siti melihat murid baharu bersendirian.",
+
+answers:[
+
+"Mengajak makan bersama",
+
+"Membiarkannya bersendirian"
+
+],
+
+correct:0
+
+},
+
+{
+
+question:
+"Nenek jiran membawa banyak barang.",
+
+answers:[
+
+"Menawarkan bantuan",
+
+"Berjalan pergi"
+
+],
+
+correct:0
+
+},
+
+{
+
+question:
+"Rakan terlupa membawa pensel.",
+
+answers:[
+
+"Meminjamkan pensel",
+
+"Menyembunyikan pensel"
+
+],
+
+correct:0
+
+},
+
+{
+
+question:
+"Kelas kelihatan kotor.",
+
+answers:[
+
+"Membantu membersihkan kelas",
+
+"Membuang sampah merata-rata"
+
+],
+
+correct:0
+
+}
+
+];
+
+let current=0;
+
+let score=0;
+
+const question=document.getElementById("question");
+
+const choices=document.getElementById("choices");
+
+const feedback=document.getElementById("feedback");
+
+const nextBtn=document.getElementById("nextBtn");
+
+const scoreText=document.getElementById("score");
+
+function loadQuestion(){
+
+feedback.innerHTML="";
+
+nextBtn.style.display="none";
+
+question.innerHTML=
+
+quiz[current].question;
+
+choices.innerHTML="";
+
+quiz[current].answers.forEach(
+
+(answer,index)=>{
+
+let btn=document.createElement("button");
+
+btn.innerHTML=answer;
+
+btn.onclick=()=>checkAnswer(index);
+
+choices.appendChild(btn);
+
+});
+
+}
+
+function checkAnswer(index){
+
+if(index===quiz[current].correct){
+
+feedback.innerHTML=
+
+"✅ Betul! +10 markah";
+
+feedback.className=
+
+"feedback correct";
+
+score+=10;
+
+}
+
+else{
+
+feedback.innerHTML=
+
+"❌ Cuba lagi.";
+
+feedback.className=
+
+"feedback wrong";
+
+}
+
+nextBtn.style.display="block";
+
+}
+
+nextBtn.onclick=function(){
+
+current++;
+
+if(current<quiz.length){
+
+loadQuestion();
+
+}
+
+else{
+
+showResult();
+
+}
+
+}
+
+function showResult(){
+
+question.innerHTML=
+
+"🎉 Permainan Tamat!";
+
+choices.innerHTML="";
+
+feedback.innerHTML="";
+
+let status="";
+
+if(score===50){
+
+status="🏆 Wira Baik Hati";
+
+}
+
+else if(score>=40){
+
+status="⭐ Murid Prihatin";
+
+}
+
+else{
+
+status="💖 Sahabat Penyayang";
+
+}
+
+scoreText.innerHTML=
+
+"Jumlah Markah: <b>"+score+
+
+"</b><br><br>"+status;
+
+nextBtn.style.display="none";
+
+}
+
+loadQuestion();
+
+</script>
+
+</body>
+</html>
